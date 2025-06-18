@@ -1,8 +1,6 @@
 import "dotenv/config";
-import { bcryptUtil } from "../utils/index.utils.js";
 
 const {
-  PORT = 3000,
   LOCAL_DATABASE_URI,
   DEV_DATABASE_URI,
   SECRET_WORD,
@@ -14,8 +12,10 @@ const {
   ADMIN_PASSWORD,
   OPENAI_API_KEY,
   HF_API_TOKEN,
-  NODE_ENV,
 } = process.env;
+
+const PORT = process.env.PORT || 3000;
+const NODE_ENV = process.env.NODE_ENV || "development";
 
 const NODEMAILER_CONFIG = {
   host: "smtp.gmail.com",
@@ -28,7 +28,7 @@ const NODEMAILER_CONFIG = {
 };
 
 const CONNECTION = {
-  URI: NODE_ENV === "development" ? DEV_DATABASE_URI : LOCAL_DATABASE_URI,
+  URI: NODE_ENV !== "development" ? DEV_DATABASE_URI : LOCAL_DATABASE_URI,
   CONFIG:
     NODE_ENV !== "development"
       ? {
